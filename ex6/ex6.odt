@@ -1,0 +1,167 @@
+Script started on Monday 04 October 2010 04:34:49 PM IST
+]0;keerthana@keerthana-laptop: ~/javalab/ex6keerthana@keerthana-laptop:~/javalab/ex6$ cat CurrencyStore.java
+import java.io.*;
+
+class Rupee implements Serializable 
+{
+	float rValue;
+
+	Rupee(float val)
+	{
+		rValue  = val;		
+	}
+	
+	float getRupee()
+	{
+		return rValue;
+	}
+	
+	float convertToDollar()
+	{
+		return rValue/50;
+	}
+}
+
+class Dollar implements Serializable
+{
+	float dValue;
+
+	Dollar(float val)
+	{
+		dValue = val;
+	}
+		
+	float getDollar()
+	{
+		return dValue;
+	}
+
+	float convertToRupee()
+	{
+		return dValue*50;
+	}
+}
+
+class CurrencyStore
+{
+	public static void main(String []args)throws IOException
+	{
+		DataInputStream d = new DataInputStream(System.in);
+
+		File filename = new File("Currency.txt");
+
+		FileOutputStream fout = new FileOutputStream(filename);
+		ObjectOutputStream out = new ObjectOutputStream(fout);
+		
+		while(true)
+		{
+			System.out.println("\n\tMENU:");
+			System.out.println("1.Write a Rupee object into the file\n2.Write a Dollar object into the file\n3.Exit");
+			System.out.print("Enter your choice:");
+			int choice = Integer.parseInt(d.readLine());
+
+			switch(choice)
+			{
+				case 1:
+					System.out.print("\nEnter the value:");
+					Rupee r = new Rupee(Float.parseFloat(d.readLine()));
+					out.writeObject(r);	//triggers serialization
+					break;
+				case 2:
+					System.out.print("\nEnter the value:");
+					Dollar dol = new Dollar(Float.parseFloat(d.readLine()));
+					out.writeObject(dol);
+					break;
+				case 3:
+					System.out.println("\nProgram terminating!!");
+					System.exit(0);
+			}//switch
+		}//while
+	}//main
+}//class
+
+]0;keerthana@keerthana-laptop: ~/javalab/ex6keerthana@keerthana-laptop:~/javalab/ex6$ javac CurrencyStore.java
+Note: CurrencyStore.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+]0;keerthana@keerthana-laptop: ~/javalab/ex6keerthana@keerthana-laptop:~/javalab/ex6$ java currency[K[K[K[K[K[K[K[KCurrencyStore
+
+	MENU:
+1.Write a Rupee object into the file
+2.Write a Dollar object into the file
+3.Exit
+Enter your choice:1
+
+Enter the value:300.00
+
+	MENU:
+1.Write a Rupee object into the file
+2.Write a Dollar object into the file
+3.Exit
+Enter your choice:2
+
+Enter the value:1.50
+
+	MENU:
+1.Write a Rupee object into the file
+2.Write a Dollar object into the file
+3.Exit
+Enter your choice:1
+
+Enter the value:2500.50
+
+	MENU:
+1.Write a Rupee object into the file
+2.Write a Dollar object into the file
+3.Exit
+Enter your choice:2
+
+Enter the value:80.00
+
+	MENU:
+1.Write a Rupee object into the file
+2.Write a Dollar object into the file
+3.Exit
+Enter your choice:2
+
+Enter the value:2
+
+	MENU:
+1.Write a Rupee object into the file
+2.Write a Dollar object into the file
+3.Exit
+Enter your choice:3
+
+Program terminating!!
+]0;keerthana@keerthana-laptop: ~/javalab/ex6keerthana@keerthana-laptop:~/javalab/ex6$ javac CurrencyConvet[Krt.java
+]0;keerthana@keerthana-laptop: ~/javalab/ex6keerthana@keerthana-laptop:~/javalab/ex6$ java CurrencyConvert
+
+Contents of file "Currency.txt":
+Rupee :300.0
+Dollar :1.5
+Rupee :2500.5
+Dollar :80.0
+Dollar :2.0
+
+End of file
+
+Contents of file "Rupee.txt":
+300.0
+75.0
+2500.5
+4000.0
+100.0
+
+End of file
+
+Contents of file "Dollar.txt":
+6.0
+1.5
+50.01
+80.0
+2.0
+
+End of file
+]0;keerthana@keerthana-laptop: ~/javalab/ex6keerthana@keerthana-laptop:~/javalab/ex6$ exit
+exit
+
+Script done on Monday 04 October 2010 04:36:26 PM IST

@@ -1,0 +1,80 @@
+import java.io.*;
+
+class Rupee implements Serializable 
+{
+	float rValue;
+
+	Rupee(float val)
+	{
+		rValue  = val;		
+	}
+	
+	float getRupee()
+	{
+		return rValue;
+	}
+	
+	float convertToDollar()
+	{
+		return rValue/50;
+	}
+}
+
+class Dollar implements Serializable
+{
+	float dValue;
+
+	Dollar(float val)
+	{
+		dValue = val;
+	}
+		
+	float getDollar()
+	{
+		return dValue;
+	}
+
+	float convertToRupee()
+	{
+		return dValue*50;
+	}
+}
+
+class CurrencyStore
+{
+	public static void main(String []args)throws IOException
+	{
+		DataInputStream d = new DataInputStream(System.in);
+
+		File filename = new File("Currency.txt");
+
+		FileOutputStream fout = new FileOutputStream(filename);
+		ObjectOutputStream out = new ObjectOutputStream(fout);
+		
+		while(true)
+		{
+			System.out.println("\n\tMENU:");
+			System.out.println("1.Write a Rupee object into the file\n2.Write a Dollar object into the file\n3.Exit");
+			System.out.print("Enter your choice:");
+			int choice = Integer.parseInt(d.readLine());
+
+			switch(choice)
+			{
+				case 1:
+					System.out.print("\nEnter the value:");
+					Rupee r = new Rupee(Float.parseFloat(d.readLine()));
+					out.writeObject(r);
+					break;
+				case 2:
+					System.out.print("\nEnter the value:");
+					Dollar dol = new Dollar(Float.parseFloat(d.readLine()));
+					out.writeObject(dol);
+					break;
+				case 3:
+					System.out.println("\nProgram terminating!!");
+					System.exit(0);
+			}//switch
+		}//while
+	}//main
+}//class
+

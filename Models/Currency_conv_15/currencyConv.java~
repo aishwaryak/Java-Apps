@@ -1,0 +1,55 @@
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import java.lang.String.*;
+
+class ConversionFrame extends JFrame
+{
+	JComboBox comboBox;
+	JTextField t1;
+
+	ConversionFrame()
+	{
+		setTitle("Conversion");
+		setSize(200,100);
+		JPanel panel = new JPanel();
+		panel.setLayout(new GridLayout(1,2,5,5));
+
+		t1 = new JTextField("",10);
+		comboBox = new JComboBox();
+		comboBox.addItem("Rupee");
+		comboBox.addItem("Dollar");
+		comboBox.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent event)
+			{
+				if(comboBox.getSelectedItem().equals("Rupee"))
+				{
+					float dol = Float.parseFloat(t1.getText()) / 50;
+					t1.setText("" + dol);	
+				}
+				else if(comboBox.getSelectedItem().equals("Dollar"))
+				{
+					float r = Float.parseFloat(t1.getText()) * 50;
+					t1.setText("" + r);
+				}
+			}		
+		});
+		
+		panel.add(t1);
+		panel.add(comboBox);
+		add(panel);
+		pack();
+	}
+}
+
+class currencyConv
+{
+	public static void main(String []args)
+	{
+		ConversionFrame cf = new ConversionFrame();
+		cf.setVisible(true);
+		cf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}//main
+}//class
+

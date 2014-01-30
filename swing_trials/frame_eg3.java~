@@ -1,0 +1,29 @@
+import java.io.*;
+import javax.swing.*;
+import java.awt.*;
+
+class SimpleSizedFrame extends JFrame
+{
+	public SimpleSizedFrame()
+	{
+		Toolkit kit = Toolkit.getDefaultToolkit();
+		Dimension screenSize = kit.getScreenSize();
+		int screenWidth = screenSize.width;
+		int screenHeight = screenSize.height;
+		setTitle("Frame 3");
+		setSize(screenWidth/2,screenHeight/2);
+		setLocation(200,200);
+	}
+}
+
+class frame_eg3
+{
+	public static void main(String args[])
+	{
+		SimpleSizedFrame f = new SimpleSizedFrame();
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		f.setVisible(true);
+	}
+}
+
+

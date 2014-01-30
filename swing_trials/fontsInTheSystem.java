@@ -1,0 +1,13 @@
+import java.awt.*;
+import java.lang.String.*;
+
+public class fontsInTheSystem
+{
+	public static void main(String []args)
+	{
+		String fontnames[] = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+		for(int i=0;i<fontnames.length;i++)
+			System.out.println(fontnames[i]);
+	}
+}
+

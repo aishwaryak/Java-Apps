@@ -1,0 +1,57 @@
+package myjava.calculator;
+
+public class calculate
+{
+	public double no;
+	
+	public calculate()
+	{
+		no=0;
+	}
+
+	public calculate(double no)
+	{
+		this.no=no;
+	}
+
+	public double getno()
+	{
+		return no;	
+	}
+	
+	public double add(calculate c)
+	{
+		return no+c.no;
+	}
+
+	public double sub(calculate c)
+	{
+		return no-c.no;
+	}
+
+	public double mul(calculate c)
+	{
+		return no*c.no;
+	}
+
+	public double div(calculate c)
+	{
+		return no/c.no;
+	}
+
+	public double pow(calculate c)
+	{
+		return java.lang.Math.pow(no,c.no);
+	}
+
+	public double sqrt()
+	{
+		return java.lang.Math.sqrt(no);
+	}
+
+	public double mod(calculate c)
+	{
+		return no%c.no;
+	}
+}
+

@@ -1,0 +1,246 @@
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import java.lang.String.*;
+import java.lang.Math.*;
+
+class CalculatorPanel extends JPanel
+{
+	JPanel buttonsPanel,p1,p2;
+	JTextField text;
+	JLabel label;
+
+	String lastCommand = "=",str;
+	double result = 0;
+	boolean start = true;
+	
+	InsertAction insert = new InsertAction();
+	CommandAction command = new CommandAction();
+
+	public CalculatorPanel()
+	{
+		setLayout(new BorderLayout(40,40));
+		Font displayFont = new Font("monspaced", Font.PLAIN, 20);
+
+		p1 = new JPanel();
+		text = new JTextField("",30);
+		text.setHorizontalAlignment(JTextField.RIGHT);
+		//text.setFont(displayFont);
+		p1.add(text);
+		
+		add(p1,BorderLayout.NORTH);
+
+		buttonsPanel = new JPanel(); 
+		buttonsPanel.setLayout(new GridLayout(5,4,5,5));
+
+		addButton("Bksp",command);
+		addButton("CE",command);
+		addButton("Clr",command);
+		addButton(" ",command);
+
+		addButton("7",insert);
+		addButton("8",insert);
+		addButton("9",insert);
+		addButton("/",command);
+		
+		addButton("4",insert);
+		addButton("5",insert);
+		addButton("6",insert);
+		addButton("*",command);
+		
+		addButton("1",insert);
+		addButton("2",insert);
+		addButton("3",insert);
+		addButton("-",command);
+		
+		addButton("0",insert);
+		addButton(".",insert);
+		addButton("=",command);
+		addButton("+",command);
+
+		add(buttonsPanel,BorderLayout.CENTER);
+
+		p2 = new JPanel();
+		p2.setLayout(new GridLayout(2,1));
+		p2.add(new JSeparator(SwingConstants.HORIZONTAL));
+		label = new JLabel("",JLabel.LEFT);
+		label.setFont(new Font("monspaced",Font.PLAIN,20));
+		p2.add(label);
+
+		add(p2,BorderLayout.SOUTH);
+		
+		setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+	}//constructor
+
+	private void addButton(String name,ActionListener listener)
+	{
+		JButton button = new JButton(name);
+		buttonsPanel.add(button);
+		button.addActionListener(listener);
+		if(name.equals(" "))
+			button.setEnabled(false);	
+	}
+
+	private class InsertAction implements ActionListener
+	{
+		public void actionPerformed(ActionEvent event)
+		{
+			str = event.getActionCommand();
+			if(start)
+			{
+				text.setText("");
+				if(!str.equals("0"))
+					start = false;
+			}
+			
+			text.setText(text.getText() + str);
+		}
+	}//InsertAction
+
+	private class CommandAction implements ActionListener
+	{
+		public void actionPerformed(ActionEvent event)
+		{
+			String com = event.getActionCommand();
+
+			if(com.equals("Clr") || com.equals("CE"))
+			{
+				start = true;
+				text.setText("");
+				result = 0;
+				lastCommand = "=";
+			}
+			else if(com.equals("Bksp"))
+			{
+				String s = text.getText();
+				String t = s.substring(0,s.length()-1);
+				text.setText(t);				
+			}
+			else
+			{
+				if(start)
+				{
+					if(com.equals("-"))
+					{
+						text.setText(com);
+						start = false;
+					}
+					else
+						lastCommand = com;
+				}
+				else
+				{
+					calculate(Double.parseDouble(text.getText()));
+					lastCommand = com;
+					start = true;
+				}
+			}//else
+		}//actionPerformed
+	}//CommandAction
+
+	public void calculate(double x)
+	{
+		if(lastCommand.equals("+")) result += x;
+		else if(lastCommand.equals("-")) result -=x;
+		else if(lastCommand.equals("*")) result *=x;
+		else if(lastCommand.equals("/")) result /=x;
+		else if(lastCommand.equals("=")) result =x;
+		else if(lastCommand.equals("+/-"));
+
+		text.setText(""+result);
+	}//calculate	
+}
+
+class CalculatorFrame extends JFrame
+{
+	JMenuBar menuBar;
+	JToolBar toolBar;
+//	ScientificCalculatorPanel scientificCalculatorPanel = new ScientificCalculatorPanel();
+
+	public CalculatorFrame()
+	{
+		setTitle("Simple Calculator");
+		setSize(300,200);
+		setLayout(new BorderLayout(10,10));
+	
+		
+		final ScientificCalculatorFrame f = new ScientificCalculatorFrame();
+		//CalculatorPanel cPanel = new CalculatorPanel();
+		//final ScientificCalculatorPanel scPanel = new ScientificCalculatorPanel();
+
+		menuBar = new JMenuBar();
+		JMenu calculatorMenu = new JMenu("Calculator");
+			JMenuItem quitItem = new JMenuItem("Quit");
+				quitItem.addActionListener(new ActionListener()
+				{
+					public void actionPerformed(ActionEvent event)
+					{
+						System.exit(0);
+					}
+				});
+			calculatorMenu.add(quitItem);
+
+		JMenu helpMenu = new JMenu("Help");
+			JMenuItem helpItem = new JMenuItem("Help");	
+			JMenuItem aboutItem = new JMenuItem("About");
+			helpMenu.add(helpItem);
+			helpMenu.addSeparator();
+			helpMenu.add(aboutItem);
+
+		menuBar.add(calculatorMenu);
+		menuBar.add(helpMenu);
+
+		setJMenuBar(menuBar);
+
+		toolBar = new JToolBar();
+
+		/*JButton simpleButton = new JButton("Simple");
+		simpleButton.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent event)
+			{
+				setVisible(true);
+				f.setVisible(false);
+				
+			}
+		});
+*/
+		JButton scientificButton = new JButton("Scientific");
+		scientificButton.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent event)
+			{
+				setVisible(false);
+				//f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				f.setVisible(true);
+				//gggf.setLayout(new BorderLayout(10,10));
+				//f.setJMenuBar(menuBar);
+				//f.add(toolBar,BorderLayout.NORTH);
+				//f.add(cPanel,BorderLayout.CENTER);
+			}
+		});
+		
+//		toolBar.add(simpleButton);
+		toolBar.add(scientificButton);
+		add(toolBar,BorderLayout.NORTH);
+		
+	 	CalculatorPanel calculatorPanel = new CalculatorPanel();		
+		setLayout(new BorderLayout(10,10));
+		add(calculatorPanel,BorderLayout.CENTER);
+		
+		setJMenuBar(menuBar);
+				
+				//add(toolBar,BorderLayout.NORTH);
+				//add(cPanel,BorderLayout.CENTER);
+		pack();
+	}
+}
+class simplecal
+{
+	public static void main(String args[])
+	{
+		CalculatorFrame cf=new CalculatorFrame();
+		cf.setVisible(true);
+		cf.pack();
+	}
+}
